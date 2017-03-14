@@ -80,8 +80,8 @@ params, but it's easier to just set them as environment variables::
 You will also need to define the authentication url with ``--os-auth-url``
 and the version of the API with ``--os-volume-api-version``. Or set them as
 environment variables as well. Since Block Storage API V2 is officially
-deprecate, you can set ``OS_VOLUME_API_VERSION=3``. If you are using Keystone,
-you need to set the OS_AUTH_URL to the keystone endpoint. For the ``admin``
+deprecated, you can set ``OS_VOLUME_API_VERSION=3``. If you are using Keystone,
+you need to set the ``OS_AUTH_URL`` to the keystone endpoint. For the ``admin``
 user in the Identity service, set::
 
     export OS_AUTH_URL=http://controller:35357/v3
@@ -281,8 +281,8 @@ You'll find complete documentation on the shell by running
       --endpoint-type <endpoint-type>
                             DEPRECATED! Use --os-endpoint-type.
       --os-volume-api-version <volume-api-ver>
-                            Block Storage API version. Accepts X, X.Y (where
-                            X is major and Y is minor
+                            Block Storage API version. Accepts X, X.Y (where X is
+                            major and Y is minor
                             part).Default=env[OS_VOLUME_API_VERSION].
       --bypass-url <bypass-url>
                             Use this API endpoint instead of the Service Catalog.
@@ -343,11 +343,13 @@ You'll find complete documentation on the shell by running
       --os-cacert <ca-certificate>
                            Specify a CA bundle file to use in verifying a TLS
                            (https) server certificate. Defaults to
-                            env[OS_CACERT].
+                           env[OS_CACERT].
       --os-cert <certificate>
                             Defaults to env[OS_CERT].
       --os-key <key>        Defaults to env[OS_KEY].
       --timeout <seconds>   Set request timeout (in seconds).
+
+    Run "cinder help SUBCOMMAND" for help on a subcommand.
 
 Python API
 ----------
@@ -356,7 +358,7 @@ There's also a complete Python API, but it has not yet been documented.
 
 Quick-start using keystone::
 
-    # use v3.0 auth with http://example.com:5000/v3
+    # use v3.0 auth with http://controller:5000/v3
     >>> from cinderclient.v3 import client
     >>> nt = client.Client(USERNAME, PASSWORD, PROJECT_ID, AUTH_URL)
     >>> nt.volumes.list()
