@@ -80,16 +80,11 @@ params, but it's easier to just set them as environment variables::
 You will also need to define the authentication url with ``--os-auth-url``
 and the version of the API with ``--os-volume-api-version``. Or set them as
 environment variables as well. Since Block Storage API V2 is officially
-deprecated, you can set ``OS_VOLUME_API_VERSION=3``. If you are using Keystone,
-you need to set the ``OS_AUTH_URL`` to the keystone endpoint. For the ``admin``
-user in the Identity service, set::
+deprecated, you are encouraged to set ``OS_VOLUME_API_VERSION=3``. If you
+are using Keystone, you need to set the ``OS_AUTH_URL`` to the keystone
+endpoint::
 
-    export OS_AUTH_URL=http://controller:35357/v3
-    export OS_VOLUME_API_VERSION=3
-
-For the ``demo`` user (non-admin user) in the Identity service, set::
-
-    export OS_AUTH_URL=http://controller.com:5000/v3
+    export OS_AUTH_URL=http://controller:5000/v3
     export OS_VOLUME_API_VERSION=3
 
 Since Keystone can return multiple regions in the Service Catalog, you
@@ -127,6 +122,8 @@ You'll find complete documentation on the shell by running
     Positional arguments:
       <subcommand>
         absolute-limits     Lists absolute limits for a user.
+        api-version         Display the server API version information. (Supported
+                            by API versions 3.0 - 3.latest)
         availability-zone-list
                             Lists all availability zones.
         backup-create       Creates a volume backup.
@@ -174,13 +171,11 @@ You'll find complete documentation on the shell by running
         freeze-host         Freeze and disable the specified cinder-volume host.
         get-capabilities    Show backend volume stats and properties. Admin only.
         get-pools           Show pool information for backends. Admin only.
-        group-show          Shows details of a group.
         image-metadata      Sets or deletes volume image metadata.
         image-metadata-show
                             Shows volume image metadata.
         list                Lists all volumes.
         manage              Manage an existing volume.
-        manageable-list     Lists all manageable volumes.
         metadata            Sets or deletes volume metadata.
         metadata-show       Shows volume metadata.
         metadata-update-all
@@ -220,14 +215,13 @@ You'll find complete documentation on the shell by running
         service-disable     Disables the service.
         service-enable      Enables the service.
         service-list        Lists all services. Filter by host and service binary.
+                            (Supported by API versions 3.0 - 3.latest)
         set-bootable        Update bootable status of a volume.
         show                Shows volume details.
         snapshot-create     Creates a snapshot.
         snapshot-delete     Removes one or more snapshots.
         snapshot-list       Lists all snapshots.
         snapshot-manage     Manage an existing snapshot.
-        snapshot-manageable-list
-                            Lists all manageable snapshots.
         snapshot-metadata   Sets or deletes snapshot metadata.
         snapshot-metadata-show
                             Shows snapshot metadata.
@@ -257,6 +251,8 @@ You'll find complete documentation on the shell by running
                             is_public.
         unmanage            Stop managing a volume.
         upload-to-image     Uploads volume to Image Service as an image.
+        version-list        List all API versions. (Supported by API versions 3.0
+                            - 3.latest)
         bash-completion     Prints arguments for bash_completion.
         help                Shows help about this program or one of its
                             subcommands.
@@ -341,15 +337,21 @@ You'll find complete documentation on the shell by running
                             verified against any certificate authorities. This
                             option should be used with caution.
       --os-cacert <ca-certificate>
-                           Specify a CA bundle file to use in verifying a TLS
-                           (https) server certificate. Defaults to
-                           env[OS_CACERT].
+                            Specify a CA bundle file to use in verifying a TLS
+                            (https) server certificate. Defaults to
+                            env[OS_CACERT].
       --os-cert <certificate>
                             Defaults to env[OS_CERT].
       --os-key <key>        Defaults to env[OS_KEY].
       --timeout <seconds>   Set request timeout (in seconds).
 
     Run "cinder help SUBCOMMAND" for help on a subcommand.
+
+If you want to get a particular version API help message, you can add
+``--os-volume-api-version <volume-api-ver>`` in help command, like
+this::
+
+    cinder --os-volume-api-version 3.28 help
 
 Python API
 ----------
@@ -358,7 +360,7 @@ There's also a complete Python API, but it has not yet been documented.
 
 Quick-start using keystone::
 
-    # use v3.0 auth with http://controller:5000/v3
+    # use v3 auth with http://controller:5000/v3
     >>> from cinderclient.v3 import client
     >>> nt = client.Client(USERNAME, PASSWORD, PROJECT_ID, AUTH_URL)
     >>> nt.volumes.list()
